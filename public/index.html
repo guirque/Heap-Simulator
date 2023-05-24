@@ -7,9 +7,13 @@
     <body>
         <main>
             <form>
-                <label>Insert Heap File: <input type="file" value="Heap file"></label>
-                <input type="submit">
+                <label>Insert Heap File: <input type="file" value="Heap file" id="heap-file"></label>
+                <input type="button" onclick="readFile()" value="Run">
             </form>
         </main>
+        <aside id="errorMsg">
+            
+        </aside>
+        <script src="logic.js"></script>
     </body>
 </html>
