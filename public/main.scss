@@ -5,20 +5,103 @@
     box-sizing: border-box;
 }
 
+body
+{
+    background-image: linear-gradient(45deg, rgb(233, 168, 83), rgb(63, 194, 218));
+}
+
+@mixin darkSideBorder($color)
+{
+    $dark-border: solid #{darken($color, 15%)} 4px;
+    $light-border: solid #{lighten($color, 5%)} 2px;
+    border-left: $dark-border;
+    border-bottom: $dark-border;
+    border-top: $light-border;
+    border-right: $light-border;
+}
+
 main
 {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    text-align: center;
     width: 50vw;
     height: 80vh;
-    background-color: rgb(181, 244, 247);
+    $main-back-color: rgb(181, 244, 247);
+    background-color: $main-back-color;
+    @include darkSideBorder($main-back-color);
     margin: 10vh 25vw;
     padding: 2vh;
+
+    header
+    {
+        font-size: large;
+        text-decoration: underline;
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
+        margin-bottom: 2vh;
+        width: 100%;
+        height: auto;
+        $color: rgb(58, 146, 218);
+        background-color: $color;
+        @include darkSideBorder($color);
+    }
 
     form
     {
         display: flex;
         flex-direction: column;
+
+        label
+        {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            width: 100%;
+            background-color: darken($main-back-color, 10%);
+            input
+            {
+                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                background-color:rgb(231, 173, 97);
+            }
+        }
+    }
+
+    output
+    {
+        display: flex;
+        flex-direction: column;
+
+        #heap
+        {
+            display: flex;
+            flex-direction: row;
+            margin-top: 3vh;
+
+            &-line
+            {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                .line{text-align: left;}
+                .method{text-align: right;}
+                padding: 0 1vw;
+                margin-top: 2vh;
+                background-color: darken($main-back-color, 15%);
+                width: 100%;
+            }
+
+            &-element
+            {
+                display: flex;
+                justify-content: center;
+                justify-items: center;
+                border: black thin solid;
+                width: 5vw; 
+                height: auto;
+                padding: 1vw 1vh;
+                box-sizing: border-box;
+                background-color: transparentize(darken($main-back-color, 10%), 0.2);
+
+            }
+        }
     }
 
     #errorMsg

@@ -3,17 +3,73 @@
   padding: 0;
   box-sizing: border-box; }
 
+body {
+  background-image: linear-gradient(45deg, #e9a853, #3fc2da); }
+
 main {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  text-align: center;
   width: 50vw;
   height: 80vh;
   background-color: #b5f4f7;
+  border-left: solid #70eaf0 4px;
+  border-bottom: solid #70eaf0 4px;
+  border-top: solid #ccf7f9 2px;
+  border-right: solid #ccf7f9 2px;
   margin: 10vh 25vw;
   padding: 2vh; }
+  main header {
+    font-size: large;
+    text-decoration: underline;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-bottom: 2vh;
+    width: 100%;
+    height: auto;
+    background-color: #3a92da;
+    border-left: solid #206ba8 4px;
+    border-bottom: solid #206ba8 4px;
+    border-top: solid #4f9ede 2px;
+    border-right: solid #4f9ede 2px; }
   main form {
     display: flex;
     flex-direction: column; }
+    main form label {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      width: 100%;
+      background-color: #87edf2; }
+      main form label input {
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        background-color: #e7ad61; }
+  main output {
+    display: flex;
+    flex-direction: column; }
+    main output #heap {
+      display: flex;
+      flex-direction: row;
+      margin-top: 3vh; }
+      main output #heap-line {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 0 1vw;
+        margin-top: 2vh;
+        background-color: #70eaf0;
+        width: 100%; }
+        main output #heap-line .line {
+          text-align: left; }
+        main output #heap-line .method {
+          text-align: right; }
+      main output #heap-element {
+        display: flex;
+        justify-content: center;
+        justify-items: center;
+        border: black thin solid;
+        width: 5vw;
+        height: auto;
+        padding: 1vw 1vh;
+        box-sizing: border-box;
+        background-color: rgba(135, 237, 242, 0.8); }
   main #errorMsg {
     width: 100%;
     height: 20vh;
