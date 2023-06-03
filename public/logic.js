@@ -139,11 +139,19 @@ function deleteVar(name)
         let start = vars[name].position;
         let size = vars[name].size;
         delete vars[name];
-        for(let i = start; i < start + size; i++)
+        if(start != -1) for(let i = start; i < start + size; i++)
         {
             heap[i] = 0;
         }
         adjustFreeSpaces();
+        
+        //Make sure to also remove references to the area which is now erased
+        Object.keys(vars).forEach((varName)=>
+        {
+            //If a variable points to the same position of the removed variable, make it point to -1.
+            if(vars[varName].position == start){vars[varName].position = -1;}
+        });
+
         //console.log(`${name} deleted. Start: ${start}, size: ${size} `, vars);
     }
     else showError(`Unidentified var '${name}'.`);
@@ -190,11 +198,11 @@ function run(content)
                 insert(words[1], Number(words[2]));
                 break;
             case 'exibe':
+                console.log(vars);
                 //print heap
                 document.querySelector('output').innerHTML += `<div id="heap-line"><div class="line">Line ${index}</div> <div class="method">Heap method: ${currentMethod}</div></div>`;
                 document.querySelector('output').innerHTML += `<div id="heap"></div>`;
                 let lastHeap = document.querySelector('output').lastChild;
-
                 heap.forEach((element, i)=>
                 {
                     lastHeap.innerHTML += `<div id="heap-element">${element}</div>`;
@@ -207,7 +215,7 @@ function run(content)
                 {
                     let i = vars[key];
                     //For each element in the heap to be colored
-                    for(let start = i.position; start < i.position + i.size; start++) 
+                    if(i.position != -1) for(let start = i.position; start < i.position + i.size; start++) 
                     {
                         heapElements[start].style.backgroundColor = vars[key].color;   
                     }
@@ -220,11 +228,20 @@ function run(content)
                 break;
             default:
                 //Assignments
-                if(words[1] == '='){ 
-                    //With number
-                    if(!isNaN(Number(words[2]))) vars[words[0]] = Number(words[2]);
-                    //With variable name
-                    else vars[words[0]] = vars[words[2]];
+                if(words[1] == '=' && vars.hasOwnProperty(words[2])){ 
+                    
+                    //A variable is no longer associated with a color or a set of spaces.
+                    //That requires adjustments.
+                    console.log('a');
+
+                    //Old variable must now receive the color of the new one.
+                    let thisColor = vars[words[2]].color;
+
+                    document.querySelector('#vars').innerHTML += 
+                    `<div class="var" style="background-color: ${thisColor}">${words[0]} (L${currentLineNumber+1})</div>`;
+
+                    //Finally, the variable must be replaced internally.
+                    vars[words[0]] = vars[words[2]];
                 }
                 //Error
                 else showError(`Couldn't interpret "${line}" in line ${index + 1}`);
