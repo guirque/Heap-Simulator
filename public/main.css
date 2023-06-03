@@ -96,4 +96,5 @@ main {
     bottom: 12vh;
     color: #990000;
     border: solid 3px black;
-    background-image: linear-gradient(0deg, rgba(91, 91, 94, 0.479), rgba(104, 104, 117, 0.795)); }
+    background-image: linear-gradient(0deg, rgba(91, 91, 94, 0.479), rgba(104, 104, 117, 0.795));
+    overflow-y: auto; }

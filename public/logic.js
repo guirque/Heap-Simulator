@@ -198,7 +198,6 @@ function run(content)
                 insert(words[1], Number(words[2]));
                 break;
             case 'exibe':
-                console.log(vars);
                 //print heap
                 document.querySelector('output').innerHTML += `<div id="heap-line"><div class="line">Line ${index}</div> <div class="method">Heap method: ${currentMethod}</div></div>`;
                 document.querySelector('output').innerHTML += `<div id="heap"></div>`;
@@ -221,7 +220,6 @@ function run(content)
                     }
                 });
 
-                //console.log(spacesFree);
                 break;
             case 'del':
                 deleteVar(words[1]);
@@ -232,7 +230,6 @@ function run(content)
                     
                     //A variable is no longer associated with a color or a set of spaces.
                     //That requires adjustments.
-                    console.log('a');
 
                     //Old variable must now receive the color of the new one.
                     let thisColor = vars[words[2]].color;
@@ -249,7 +246,6 @@ function run(content)
             
         }
     });
-    //console.log(vars);
     //Might be worth noting: Boolean(convertMe) and String(convertMe) functions.
 }
 
