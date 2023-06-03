@@ -85,10 +85,11 @@ function insert(name, size)
 
             //Choose this if what we want to insert fits and if either nothing was chosen yet or this space is more adequate than the one previously found.
             let replaceChoice = (currentMethod == 'best' && space < spacesFree[choice]) || (currentMethod == 'worst' && space > spacesFree[choice]);
-            if(possibleLocation && (choice == -1 || replaceChoice)){choice = index;}
+            if(possibleLocation && space >= toInsert && (choice == -1 || replaceChoice)){choice = index;}
         
             if(space != 0) possibleLocation = false;
         });
+        //console.log(spacesFree, choice);
 
         if(choice == -1){showError(`Not enough free space in heap to insert '${name}', of size ${size}.`);}
 
