@@ -10,9 +10,11 @@ Tem-se a possibilidade de criar arquivos que designem procedimentos em uma memó
 <h2>Interface</h2>
 <img src="imgs/interface.png" width="600"></br>
 
-<h3>Sobre Cores</h3>
+<h3>Sobre Variáveis e Cores</h3>
 Cada variável é exposta com uma cor aleatoriamente escolhida durante a leitura do arquivo providenciado, de forma facilitar a sua identificação nos diferentes trechos do heap. A variáveis que apontam para o mesmo trecho são dadas as mesmas cores, o que ocorre quando atribuições são realizadas.</br>
 Próximo ao topo, é possível ver que o nome das variáveis é vinculado às cores correspondentes.
+Em casos de atribuições, a variável que recebe um valor é mencionada seguida de parênteses com 'L', com o número da linha onde houve o comando da atribuição. Isso ajuda a distinguir variáveis que possuem o mesmo nome, mas são diferentes, por estarem sendo citadas em diferentes momentos do arquivo. 
+
 
 <h3>Sobre Configurações na Interface</h3>
 <ul>
@@ -22,3 +24,6 @@ Próximo ao topo, é possível ver que o nome das variáveis é vinculado às co
   <li>É possível alterar o tamanho do heap de acordo com o desejado. O limite estipulado é entre 1 e 20 (incluso). Entretanto, isso é facilmente alterável modificando tal limite no arquivo HTML associado.
   </li>
 </ul>
+
+<h3>Sobre a Seção de Erros</h3>
+O retângulo cinza ao fim da impressão do heap é onde aparece a seção de erros. É uma ferramenta básica para a análise de problemas, que busca identificar em qual linha do arquivo texto fornecido houve algo não compreendido pelo programa.
