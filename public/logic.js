@@ -35,11 +35,11 @@ function insert(name, size)
     let toInsert = size;
     let startFromHere = 0;
     let iteration = 0; //iteration makes sure the system checks if all positions have been analyzed before affirming there's no more space left.
+    let color = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
+    let beginningPositionSet = false;
     if(currentMethod == 'first' || currentMethod == 'next')
     {
         if(currentMethod == 'next') startFromHere = lastInserted+1; 
-        let beginningPositionSet = false;
-        let color = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
         for(let i = startFromHere; iteration <= heapSize && toInsert > 0; i++, iteration++)
         {
             //Found spot with enough space to insert elements
@@ -71,6 +71,51 @@ function insert(name, size)
             if(i == heapSize) i = -1;
         }
         if(toInsert != 0) showError(`Not enough free space in heap to insert '${name}', of size ${size}.`);
+    }
+    else if(currentMethod == 'worst' || currentMethod == 'best')
+    {
+
+        //Finding worst or best spot for the heap method
+        let choice = -1;
+        let possibleLocation = true; //stops heap method from skipping empty spots and inserting elements in the end of available free spots.
+        spacesFree.forEach((space, index)=>
+        {
+            //If we come accross a space that's occupied (space == 0), then the next spot is a possible location to analyze
+            if(space == 0) possibleLocation = true;
+
+            //Choose this if what we want to insert fits and if either nothing was chosen yet or this space is more adequate than the one previously found.
+            let replaceChoice = (currentMethod == 'best' && space < spacesFree[choice]) || (currentMethod == 'worst' && space > spacesFree[choice]);
+            if(possibleLocation && (choice == -1 || replaceChoice)){choice = index;}
+        
+            if(space != 0) possibleLocation = false;
+        });
+
+        if(choice == -1){showError(`Not enough free space in heap to insert '${name}', of size ${size}.`);}
+
+        //Actually interating
+        else for(let i = choice; i < choice + size; i++)
+        {
+            //Inserting Heap Element
+            heap[i] = 1;
+ 
+            //Setting variable Association
+            if(!beginningPositionSet) 
+            {
+                vars[name] = 
+                {
+                    position: i,
+                    size: size,
+                    color: color
+                };
+                document.querySelector('#vars').innerHTML += `<div class="var" style="background-color: ${color}">${name}</div>`;
+                beginningPositionSet = true;
+            }
+ 
+             //Updating Heap Management Variables
+             spacesFree[i] = 0; //updating free spaces (deleting updates these back to normal)
+             lastInserted = i; //last position inserted is now here
+             toInsert--; //amount of elements yet to be inserted
+        }
     }
 }
 
