@@ -1,11 +1,15 @@
-//Read File Object Instantiation
+// Variables And readFile -----------------------------------------------------------------------------------------------
 let reader = new FileReader();
+/** Stores a 0 or 1 in each position, meaning wether or not that position is taken. */
 let heap = [];
 let heapSize = 10;
-let currentLineNumber = -1;
-let currentLine = '/0';
-//heap is an array of objects, each with a variable name and its values.
 
+/**Number corresponding to a line. */
+let currentLineNumber = -1;
+/**Content of a line. */
+let currentLine = '/0';
+
+/**Reads file and calls run function, passing on the string correspondent to the content of the document*/
 async function readFile(){
     let heapFile = document.getElementById('heap-file').files[0]; //grabs first file in fileList obj in input element
     reader.readAsText(heapFile); //start reading file
@@ -17,19 +21,25 @@ async function readFile(){
 }
 
 //Separate variables
+/**Stores the current method to be used*/
 let currentMethod = '';
-let vars = {}; //vars stores the association between variable names and their positions in the array 
-let lastInserted = 0; //Position of last free space
+/**Stores the known information about the program variables. Each variable name is associated with its own object,
+ * which contains three properties: color (string), position (number), size (number).*/
+let vars = {};
+
+/**Stores the position of the last free space.*/
+let lastInserted = 0;
+/**Array that stores, for each position in the heap, the size available for an element starting from that position. */
 let spacesFree = [];
+//Inserting Default Values -------
 for(let i = 0; i < heapSize; i++)
 {
     heap[i] = 0;
 }
 for(let i = 0; i < heapSize; i++) spacesFree[i] = heapSize - i;
 
-//vars holds the name of a variable and its corresponding value.
+// Functions ------------------------------------------------------------------------------------------------------------
 
-//Insert
 function insert(name, size)
 {
     let toInsert = size;
@@ -157,11 +167,12 @@ function deleteVar(name)
     else showError(`Unidentified var '${name}'.`);
 }
 
+//Main Function -------------------------------------------------------------------------------------------------------
 
-//Function
+/**Interprets the content of a given file.*/
 function run(content)
 {
-    //Resetting Values
+    //Resetting Values --------------------------------------
     document.querySelector('output').innerHTML = '';
     document.querySelector('#errorMsg').innerHTML = '';
     document.querySelector('#vars').innerHTML = '';
@@ -175,40 +186,48 @@ function run(content)
     }
     for(let i = 0; i < heapSize; i++) spacesFree[i] = heapSize - i;
 
+    //Interpreting ---------------------------------------------
     let lines = [...content.match(/[^\n\r]+/g)]; //break file text into lines (consider \n and \r characters)
     lines.forEach((line, index)=>
     {
         //Four possibilities for an instruction:
         //heap, followed by type (first, best, worst or next) [what method will be used]
-        //new, followed variable name and its value
-        //del, followed by the name of the variable to delete
+        //new, followed by variable name and its value.
+        //del, followed by the name of the variable to delete.
         //exibe, not followed by anything. Shows the heap as it is.
+        
         let words = [...line.match(/[\w=]+/g)];
         currentLine = line;
         currentLineNumber = index+1;
         switch(words[0])
         {
+            // Heap ________________________________________________
             case 'heap':
                 if(words[1] == 'first' || words[1] == 'next' || words[1] == 'best' || words[1] == 'worst')
                 currentMethod = words[1];
                 else
                 {showError(`Unidentified heap method '${words[1]}'.`);}
                 break;
+            
+            // New ________________________________________________
             case 'new':
                 insert(words[1], Number(words[2]));
                 break;
+            
+            //Exibe ________________________________________________
             case 'exibe':
                 //print heap
                 document.querySelector('output').innerHTML += `<div id="heap-line"><div class="line">Line ${index}</div> <div class="method">Heap method: ${currentMethod}</div></div>`;
                 document.querySelector('output').innerHTML += `<div id="heap"></div>`;
                 let lastHeap = document.querySelector('output').lastChild;
+                //Inserts a rectangle representation of a heap element for each one present within the heap.
                 heap.forEach((element, i)=>
                 {
                     lastHeap.innerHTML += `<div id="heap-element">${element}</div>`;
                 });
                 lastHeap.innerHTML += `</br>`;
                 
-                let heapElements = lastHeap.querySelectorAll('#heap-element');
+                let heapElements = lastHeap.querySelectorAll('#heap-element');    
                 //Coloring Heap Elements
                 Object.keys(vars).forEach((key)=>
                 {
@@ -221,11 +240,14 @@ function run(content)
                 });
 
                 break;
+
+            // Del ________________________________________________
             case 'del':
                 deleteVar(words[1]);
                 break;
+            
+            // Assignments ________________________________________________
             default:
-                //Assignments
                 if(words[1] == '=' && vars.hasOwnProperty(words[2])){ 
                     
                     //A variable is no longer associated with a color or a set of spaces.
@@ -240,15 +262,14 @@ function run(content)
                     //Finally, the variable must be replaced internally.
                     vars[words[0]] = vars[words[2]];
                 }
-                //Error
-                else showError(`Couldn't interpret "${line}" in line ${index + 1}`);
-
             
+            // Error ________________________________________________
+                else showError(`Couldn't interpret "${line}" in line ${index + 1}`);
         }
     });
-    //Might be worth noting: Boolean(convertMe) and String(convertMe) functions.
 }
 
+/**Loads an error message onto the error section of the web page, noting info about the line in which the error was spotted. */
 function showError(errorMsg)
 {
     let messageNode = document.getElementById('errorMsg');
@@ -257,4 +278,5 @@ function showError(errorMsg)
     messageNode.innerHTML += `</br>-> <code>${currentLine}</code> </br>in line ${currentLineNumber}.`;
 }
 
+/**Called by the onclick event on an HTML input tag. Changes heap size */
 function changeHeapSize(value){heapSize = value;}
