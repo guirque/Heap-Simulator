@@ -1,0 +1,16 @@
+heap first
+new f1 2
+new f2 3
+new f3 2
+del f2
+exibe
+
+heap worst
+new w1 1
+exibe
+new w2 1
+exibe
+new w3 1
+exibe
+new w4 1
+exibe

@@ -1,0 +1,14 @@
+heap best
+new a 3
+new b 5
+new c 2
+del b
+exibe
+new d 2
+exibe
+d = a
+exibe
+del a
+exibe
+newC = c
+exibe

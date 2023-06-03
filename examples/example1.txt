@@ -1,0 +1,11 @@
+heap first
+new g 4
+exibe
+heap next
+new h 2
+new i 2
+del g
+exibe
+new k 1
+new l 2
+exibe
