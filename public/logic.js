@@ -278,5 +278,5 @@ function showError(errorMsg)
     messageNode.innerHTML += `</br>-> <code>${currentLine}</code> </br>in line ${currentLineNumber}.`;
 }
 
-/**Called by the onclick event on an HTML input tag. Changes heap size */
+/**Called by the onclick event on an HTML input tag. Changes heap size. */
 function changeHeapSize(value){heapSize = value;}
